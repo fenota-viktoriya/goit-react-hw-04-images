@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FcSearch } from 'react-icons/fc';
 import {
@@ -8,45 +8,40 @@ import {
   InputSearch,
 } from './Searchbar.styled';
 
-export class Searchbar extends PureComponent {
-  state = { text: '' };
+export function Searchbar({ onSubmit }) {
+  const [text, setText] = useState('');
 
-  onSubmitForm = e => {
+  const onSubmitForm = e => {
     e.preventDefault();
-    if (this.state.text.trim() === '') {
+    if (text.trim() === '') {
       alert('введите значение ');
       return;
     }
-    const onSubmit = this.props.onSubmit;
-
-    const state = this.state;
-    onSubmit(state);
-    this.setState({ text: '' });
+    onSubmit(text);
+    setText('');
   };
 
-  handelInputChange = e => {
+  const handelInputChange = e => {
     const text = e.currentTarget.value.toLowerCase();
-    this.setState({ text });
+    setText(text);
   };
 
-  render() {
-    return (
-      <Header>
-        <SearchForm onSubmit={this.onSubmitForm}>
-          <SearchFormButton type="submit">
-            <FcSearch />
-          </SearchFormButton>
+  return (
+    <Header>
+      <SearchForm onSubmit={onSubmitForm}>
+        <SearchFormButton type="submit">
+          <FcSearch />
+        </SearchFormButton>
 
-          <InputSearch
-            type="text"
-            placeholder="Search images and photos"
-            value={this.state.text}
-            onChange={this.handelInputChange}
-          />
-        </SearchForm>
-      </Header>
-    );
-  }
+        <InputSearch
+          type="text"
+          placeholder="Search images and photos"
+          value={text}
+          onChange={handelInputChange}
+        />
+      </SearchForm>
+    </Header>
+  );
 }
 
 Searchbar.propTypes = {
