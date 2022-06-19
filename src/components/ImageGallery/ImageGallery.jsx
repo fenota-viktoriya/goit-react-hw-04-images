@@ -2,18 +2,16 @@ import PropTypes from 'prop-types';
 import { ImageGalleryItem } from './ImageGalleryItem';
 import { List } from './ImageGallery.styled';
 
-export function ImageGallery({ data, toggleModal }) {
+export function ImageGallery({ data }) {
   return (
     <List>
       {data.map(({ id, webformatURL, largeImageURL, tags }) => {
         return (
           <ImageGalleryItem
-            toggleModal={toggleModal}
             img={webformatURL}
             largeImg={largeImageURL}
             tags={tags}
-            id={id}
-            key={`${id}`}
+            key={id}
           />
         );
       })}
@@ -23,5 +21,4 @@ export function ImageGallery({ data, toggleModal }) {
 
 ImageGallery.propTypes = {
   data: PropTypes.array.isRequired,
-  toggleModal: PropTypes.func.isRequired,
 };
