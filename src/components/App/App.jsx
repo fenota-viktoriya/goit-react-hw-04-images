@@ -16,22 +16,14 @@ export function App() {
   const [loader, setLoader] = useState(false);
   const [totalHits, setTotalHits] = useState('');
 
-  useEffect(() => {
-    if (text === '') {
-      return;
-    }
-
-    setImages([]);
-    setPage(1);
-    setTotalHits('');
-  }, [text]);
+  
 
   useEffect(() => {
     if (text === '') {
       return;
     }
-
     setLoader(true);
+
     ServiceAPI(text, page).then(data => {
       if (data.hits.length < 1) {
         alert('opps, ничего не найдено!');
@@ -43,9 +35,11 @@ export function App() {
     });
   }, [page, text]);
 
-  const getText = text => {
-    setText(text);
-  };
+    useEffect(() => {
+    setPage(1);
+    setImages([]);
+    setTotalHits(null);
+  }, [text]);
 
   const getNextPage = () => {
     setPage(state => state + 1);
@@ -53,7 +47,7 @@ export function App() {
 
   return (
     <Container>
-      <Searchbar onSubmit={getText} />
+      <Searchbar onSubmit={setText} />
 
       {images.length > 0 ? <ImageGallery data={images} /> : null}
 
